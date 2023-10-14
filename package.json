@@ -10,8 +10,13 @@
   "private": true,
   "dependencies": {
     "@swc/helpers": "~0.5.2",
+    "axios": "^1.5.1",
+    "bootstrap": "^5.3.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-bootstrap": "^2.9.0",
+    "react-charts": "^3.0.0-beta.56",
+    "react-dom": "18.2.0",
+    "react-resizable": "^3.0.5"
   },
   "devDependencies": {
     "@nx/cypress": "16.10.0",
@@ -27,6 +32,7 @@
     "@types/node": "18.14.2",
     "@types/react": "18.2.24",
     "@types/react-dom": "18.2.9",
+    "@types/react-resizable": "^3.0.5",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "@vitejs/plugin-react": "~4.0.0",

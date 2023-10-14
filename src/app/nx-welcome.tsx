@@ -5,7 +5,12 @@
  Delete this file and get started with your project!
  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-export function NxWelcome({ title }: { title: string }) {
+
+ interface Welcome {
+  title: string
+ }
+
+export function NxWelcome({ title }: Welcome ) {
   return (
     <>
       <style
@@ -69,10 +74,6 @@ export function NxWelcome({ title }: { title: string }) {
       padding: 0.5rem 0.75rem;
     }
 
-    .shadow {
-      box-shadow: 0 0 #0000, 0 0 #0000, 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-      0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
     .rounded {
       border-radius: 1.5rem;
     }
@@ -439,7 +440,7 @@ export function NxWelcome({ title }: { title: string }) {
                     d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
                   />
                 </svg>
-                <span>You&apos;re up and running</span>
+                <span>You&apos;re up and swimmibg1234</span>
               </h2>
               <a href="#commands"> What&apos;s next? </a>
             </div>
@@ -515,7 +516,7 @@ export function NxWelcome({ title }: { title: string }) {
                   />
                 </svg>
                 <span>
-                  Blog
+                  Iz is an alien duh
                   <span> Changelog, features & events </span>
                 </span>
                 <svg
