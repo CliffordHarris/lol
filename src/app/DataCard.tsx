@@ -14,7 +14,7 @@ interface MatchData {
   championName: string;
 }
 
-function Box(props: any) {
+function DataCard(props: any) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [matches, setMatches] = useState([]);
   const [matchInfo, setMatchInfo] = useState({}); // maybe delete
@@ -77,7 +77,7 @@ function Box(props: any) {
           </h1>
         {
         <>
-             {/* <Col>
+             <Col>
                <Card>
                  <Card.Header as="h5">{props.name}</Card.Header>
                  <Card.Body>
@@ -88,7 +88,7 @@ function Box(props: any) {
                    <Button variant="primary">Go somewhere</Button>
                  </Card.Body>
                </Card>
-             </Col> */}
+             </Col>
             <div className='container'>
               <div className='col'>
                 {matches.map(x => <div key={x}>{matches.length > 0 ? x : ''}</div>)}
@@ -117,4 +117,4 @@ function Box(props: any) {
   );
 }
 
-export default Box;
+export default DataCard;

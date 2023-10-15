@@ -8,6 +8,7 @@ import * as status from './constants';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import { Container, Row, Col } from 'react-bootstrap/';
+import DataCard from "./DataCard";
 
 function MainPage() {
   const [names, setNames] = useState<string[]>([]);
@@ -31,7 +32,7 @@ function MainPage() {
   }, [dataArr])
 
   const getUsernames = () => {
-    const vals = localStorage.getItem('names');
+    const vals = import.meta.env.VITE_USERS;
     if (!!vals) {
       const arr = JSON.parse(vals);
       setNames(arr);
@@ -76,7 +77,6 @@ function MainPage() {
 
       <Container>
         {/* 
-        1. create header component here - copy box component aka box.tsx file 
         2. create file to for dan to paste
           a. api key
           b. our user names
@@ -97,24 +97,10 @@ function MainPage() {
           <Row>
             {Object.keys(userData).map((name: any) => (
               <div key={name} className="col-3">
-                <Box name={name} key={name} data={userData[name]}></Box>
+                {/* <Box name={name} key={name} data={userData[name]}></Box> */}
+                <DataCard name={name} key={name} data={userData[name]}></DataCard>
                 {/* <LineChart></LineChart> */}
               </div>
-
-              // <div className="col">
-              //   <div className="card">
-              //     <div className="card-header">
-              //       {name}
-              //     </div>
-              //     <div className="card-body">
-              //       <h5 className="card-title">Special title treatment</h5>
-              //       <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
-              //       <a href="#" className="btn btn-primary">Go somewhere</a>
-              //     </div>
-              //   </div>
-              // </div>
-
-
             ))}
           </Row>
         }

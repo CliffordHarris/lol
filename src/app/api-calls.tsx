@@ -1,8 +1,7 @@
 import axios from "axios";
 import * as status from './constants';
 
-const apiKey = "RGAPI-d7de0d8b-5c76-4342-9fb8-7cf3f91ac8c3";
-
+const apiKey = import.meta.env.VITE_API_KEY;
 
 export const getPlayerInfo = async (user: string) => {
   if (!user) return;
@@ -51,10 +50,4 @@ try {
   }
 }
 
-
-
-
-// user look up - https://na1.api.riotgames.com/lol/summoner/v4/summoners/u2NyuDUokoU7W3m4QT3zBUvJHgWTIkaLScXGrIQ3SgUlTBwUoWT6E9W_8g
-// gets last 20 match ids - https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/CRChcIKo1N-X-8O47Lnp9pnJqiGDMae3QQGSgxqVXo6Vz_vP0yPh42N1s7vqVlxV7F8LG2-QA7r14A/ids?start=0&count=20
-// gets match details - https://americas.api.riotgames.com/lol/match/v5/matches/NA1_4798830554
 // status - https://na1.api.riotgames.com/lol/status/v4/platform-data
