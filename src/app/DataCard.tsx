@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
-// import './box.css';
 import { getMatchesForUser, getMatchData } from './api-calls';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap/';
 
 interface MatchDataLookup {
-  // [key: string]: MatchData 
   [key: string]: any
 }
 
-interface MatchData {
-  win: boolean;
-  role: string;
-  championName: string;
-}
+// interface MatchData {
+//   win: boolean;
+//   role: string;
+//   championName: string;
+// }
 
 function DataCard(props: any) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -24,7 +22,7 @@ function DataCard(props: any) {
   useEffect(() => {
     clickHandlerExpander()
   }, []);
-  
+
   useEffect(() => {
     getAllMatches()
   }, [matches]);
@@ -54,7 +52,6 @@ function DataCard(props: any) {
   const getAllMatches = async () => {
     matches.forEach(async (matchId: string) => {
       let matchInfo = await getMatchData(matchId);
-      console.log(matchInfo, matchInfo.info.participants.filter((x: any) => x.summonerId === props.data.id)[0].win);
       setAllMatches((currData: any) => [...currData, matchInfo]);
     })
   }
@@ -62,58 +59,34 @@ function DataCard(props: any) {
   const createLookup = () => {
     let dictionary: MatchDataLookup = {};
     allMatches.forEach(async (match: any) => {
-      console.log(match.info.participants.filter((x: any) => x.summonerId === props.data.id)[0].win);
       dictionary[match.metadata.matchId] = match.info;
     })
     setMatchesLookup(dictionary);
   }
 
-  return (
-    <>
-      <div className="shadowy">
-        {/* <h1 className="d-flex justify-content-between">
-          <span className=''>{props.name}</span>
-          <span className=''>{props.data.summonerLevel}</span>
-          </h1> */}
-        {
-        <>
-             <Col>
-               <Card>
-                 <Card.Header as="h5">{props.name}</Card.Header>
-                 <Card.Body>
-                   <Card.Title>Past 3 games</Card.Title>
-                   <Card.Text>
-                     Showing game id and wins
-                   </Card.Text>
-                   <Button variant="primary">Get more data or Show graph</Button>
-                 </Card.Body>
-               </Card>
-             </Col>
-            <div className='container'>
-              <div className='col'>
-                {matches.map(x => <div key={x}>{matches.length > 0 ? x : ''}</div>)}
-              </div>
-              <div className='col'>
-                {
-                  Object.keys(matchesLookup).length > 0 && matches.length > 0
-                    ?
-                    matches.map((x: string) =>
-                      <div key={x}>
-                        {/* {matchesLookup[x] ? 'min: ' + matchesLookup[x].gameDuration/60 : ''} */}
-                        {matchesLookup[x] ? matchesLookup[x].participants.filter((x: any) => x.summonerId === props.data.id)[0].win ? 'W' : '' : ''}
-                        {/* {Object.keys(matchesLookup).length} */}
-                      </div>)
-                    :
-                    ''
-                }
-                {/* {matchInfo.info.participants.filter(x => x.summonerId === props.data.id)[0].win} */}
-              </div>
-            </div>
-        </>
+  const formatDate = (date: string) => new Date(date).toDateString();
 
-        }
-      </div>
-    </>
+  return (
+    <Col xs={12} md={6} className="pb-3">
+      <Card>
+        <Card.Header as="h5">{props.name}</Card.Header>
+        <Card.Body>
+          <Card.Title>Past 3 games</Card.Title>
+          <Card.Text>
+            Showing game id and wins
+          </Card.Text>
+          {
+            matches.map(x =>
+              <div key={x}>
+                {matches.length > 0 ? x : ''}
+                {matchesLookup[x] ? matchesLookup[x].participants.filter((x: any) => x.summonerId === props.data.id)[0].win ? 'W' : '' : ''}
+                {matchesLookup[x] ? formatDate(matchesLookup[x].gameCreation) : ''}
+              </div>)
+          }
+          <Button variant="primary">Get Data</Button>
+        </Card.Body>
+      </Card>
+    </Col>
   );
 }
 
