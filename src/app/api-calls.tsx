@@ -21,7 +21,7 @@ export const getPlayerInfo = async (user: string) => {
 export const getMatchesForUser = async (userId: string) => {
   if (!userId) return;
 
-  let count = 3;
+  let count = 5;
   let url = "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/"
   let option = "/ids?start=0&count="
   let apiPrefix = "&api_key=";

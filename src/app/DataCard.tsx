@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './box.css';
+// import './box.css';
 import { getMatchesForUser, getMatchData } from './api-calls';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap/';
 
@@ -71,21 +71,21 @@ function DataCard(props: any) {
   return (
     <>
       <div className="shadowy">
-        <h1 className="d-flex justify-content-between">
+        {/* <h1 className="d-flex justify-content-between">
           <span className=''>{props.name}</span>
           <span className=''>{props.data.summonerLevel}</span>
-          </h1>
+          </h1> */}
         {
         <>
              <Col>
                <Card>
                  <Card.Header as="h5">{props.name}</Card.Header>
                  <Card.Body>
-                   <Card.Title>Special title treatment</Card.Title>
+                   <Card.Title>Past 3 games</Card.Title>
                    <Card.Text>
-                     With supporting text below as a natural lead-in to additional content.
+                     Showing game id and wins
                    </Card.Text>
-                   <Button variant="primary">Go somewhere</Button>
+                   <Button variant="primary">Get more data or Show graph</Button>
                  </Card.Body>
                </Card>
              </Col>
