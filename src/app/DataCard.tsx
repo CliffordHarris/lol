@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getMatchesForUser, getMatchData } from './api-calls';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap/';
+import * as status from './constants';
 
 interface MatchDataLookup {
   [key: string]: any
@@ -13,6 +14,7 @@ interface MatchDataLookup {
 // }
 
 function DataCard(props: any) {
+  console.log(props.data);
   const [isExpanded, setIsExpanded] = useState(false);
   const [matches, setMatches] = useState([]);
   const [matchInfo, setMatchInfo] = useState({}); // maybe delete
@@ -64,23 +66,23 @@ function DataCard(props: any) {
     setMatchesLookup(dictionary);
   }
 
-  const formatDate = (date: string) => new Date(date).toDateString();
+  const formatDate = (date: string) => new Date(date).toLocaleString();
 
   return (
     <Col xs={12} md={6} className="pb-3">
       <Card>
         <Card.Header as="h5">{props.name}</Card.Header>
         <Card.Body>
-          <Card.Title>Past 3 games</Card.Title>
+          <Card.Title>Past {status.GAMES_TO_SHOW} games</Card.Title>
           <Card.Text>
             Showing game id and wins
           </Card.Text>
           {
             matches.map(x =>
               <div key={x}>
-                {matches.length > 0 ? x : ''}
-                {matchesLookup[x] ? matchesLookup[x].participants.filter((x: any) => x.summonerId === props.data.id)[0].win ? 'W' : '' : ''}
-                {matchesLookup[x] ? formatDate(matchesLookup[x].gameCreation) : ''}
+                {matchesLookup[x] ? formatDate(matchesLookup[x].gameCreation) : ''}::
+                {matches.length > 0 ? x : ''}::
+                {matchesLookup[x] ? matchesLookup[x].participants.filter((x: any) => x.summonerId === props.data.id)[0].win ? 'W' : 'LOSS' : ''}
               </div>)
           }
           <Button variant="primary">Get Data</Button>
