@@ -112,10 +112,12 @@ function DataBox({ playerName }: PlayerName) {
   }
 
   const prepareDataForTable = (data: any)  => {
-    if(matches.length === 0 || Object.keys(matchesLookup).length === 0) return [];
+    if (matches.length === 0 || Object.keys(matchesLookup).length === 0) return [];
 
-    const playerData = matches.map(matchId => {
-      const data = matchesLookup[matchId];
+    const playerData = matches.filter(matchId => {
+      return matchesLookup[matchId];
+    }).map(matchId => {
+      let data = matchesLookup[matchId];
       return {
         id: data.info.gameCreation,
         date: formatDate(data.info.gameCreation),

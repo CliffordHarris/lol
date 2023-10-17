@@ -42,7 +42,7 @@ export default function DenseTable(props: any) {
 
     const getRows = (props: any) => {
         console.log('table', props)
-        return props.data;
+        if(props.data) return props.data;
     }
   return (
     <TableContainer component={Card}>
