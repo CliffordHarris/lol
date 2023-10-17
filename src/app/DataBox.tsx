@@ -109,6 +109,11 @@ function DataBox({ playerName }: PlayerName) {
     id: string;
     date: string;
     result: boolean;
+    champion: string;
+    kda: number;
+    level: number;
+    alive: string;
+    timeAway: string;
   }
 
   const prepareDataForTable = (data: any)  => {
@@ -118,29 +123,36 @@ function DataBox({ playerName }: PlayerName) {
       return matchesLookup[matchId];
     }).map(matchId => {
       let data = matchesLookup[matchId];
+      let playerInGameData = data.info.participants.find((x: any) => x.summonerName === playerName)
       return {
-        id: data.info.gameCreation,
+        id: matchId,
         date: formatDate(data.info.gameCreation),
-        result: data.info.participants.filter((x: any) => x.summonerName === playerName)[0].win ? 'W' : 'L'
+        result: playerInGameData.win ? 'W' : 'L',
+        // champion: `${playerInGameData.championName}${playerInGameData.individualPosition[0]}`,
+        champion: `${playerInGameData.championName}`,
+        kda: `${playerInGameData.kills}/${playerInGameData.deaths}/${playerInGameData.assists}`,
+        level: playerInGameData.champLevel,
+        alive: formatMinutes(playerInGameData.longestTimeSpentLiving),
+        timeAway: formatMinutes(playerInGameData.totalTimeSpentDead)
       }
     })
     return playerData;
   }
 
+  const formatMinutes = (seconds: number) => (seconds/60).toFixed() + "'" 
+
   const formatDate = (date: string): string => {
     let d = new Date(date);
-    return `${d.getMonth()+1}/${d.getDate()} ${d.toLocaleTimeString()}`
-    // return d.toLocaleString();
+    // return `${d.getMonth()+1}/${d.getDate()} ${d.toLocaleTimeString()}`
+    return `${d.getMonth()+1}/${d.getDate()}`
   };
   return (
     <Col xs={12} md={6} className="pb-3">
-      <Card>
-        <Card.Header as="h5">{playerName}</Card.Header>
+      <Card border="info">
+        <Card.Header className='bg-info text-white' as="h5">{playerName.toUpperCase()}</Card.Header>
         <Card.Body>
-          <Card.Title>Past {status.GAMES_TO_SHOW} games</Card.Title>
-          <Card.Text>
-            Showing game id and wins
-          </Card.Text>
+          {/* <Card.Title>Past {status.GAMES_TO_SHOW} games</Card.Title>
+          <Card.Text>Showing game id and wins</Card.Text> */}
             <DataTable data={prepareDataForTable(matchesLookup)}></DataTable>
           {/* <Button variant="primary">Get Data</Button> */}
         </Card.Body>

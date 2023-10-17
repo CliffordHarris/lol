@@ -78,7 +78,7 @@ function MainPage() {
         </Toast>
       </ToastContainer>
 
-      <Container>
+      <Container fluid="lg" className="mt-4 pt-4">
         <Row>
           {/* {Object.keys(userData).map((name: any) => (
               // <DataCard name={name} key={name} data={userData[name]}></DataCard>
