@@ -17,7 +17,7 @@ export default function DenseTable(props: any) {
         let colList = r.filter(col => !['id', 'date'].includes(col) );
         console.log(colList);
         setCols(colList)
-    }, [props.data])
+    }, [props.data, props.key])
 
     const [cols, setCols] = useState<string[]>([]);
     const [matchDetailsForAllUsers, setMatchDetailsForAllUsers] = useAtom<any>(matchesDetailsAtom);
@@ -38,23 +38,23 @@ export default function DenseTable(props: any) {
     }
 
   return (
-    <TableContainer component={Card} key={props}>
+    <TableContainer component={Card} key={props.key}>
       {/* <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table"> */}
-      <Table size="small" aria-label="a dense table">
-        <TableHead>
+      <Table size="small" aria-label="a dense table" key={props.key}>
+        <TableHead key={props.key}>
           <TableRow key={props.key}>
             {/* <TableCell key="date">Date</TableCell> */}
             {
-                cols.map(c => (
-                    <TableCell align="right" key={c}>{cap(c)}</TableCell>
+                cols.map((c,i) => (
+                    <TableCell align="right" key={i}>{cap(c)}</TableCell>
                 ))
             }
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody key={props.key}>
           {getRows(props).map((row: any, i: number) => (
             <TableRow
-              key={props.key}
+              key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               onClick={() => setChartData(row.id)}
             >
@@ -63,7 +63,7 @@ export default function DenseTable(props: any) {
               </TableCell> */}
               {
                  cols.map(c => (
-                    <TableCell align="right">{row[c]}</TableCell>
+                    <TableCell key={c} align="right">{row[c]}</TableCell>
                 ))
               }
             </TableRow>
