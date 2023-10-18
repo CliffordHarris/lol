@@ -8,7 +8,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer';
 import { Container, Row, Col, Button } from 'react-bootstrap/';
 import { atom, useAtom } from 'jotai'
 import DataBox from "./DataBox";
-
+import Header from "./header";
 
 export const hasChanges = atom(false);
 
