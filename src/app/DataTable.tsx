@@ -40,7 +40,7 @@ export default function DenseTable(props: any) {
       <Table size="small" aria-label="a dense table" key={props.key}>
         <TableHead key={props.key}>
           <TableRow key={props.key}>
-            {/* <TableCell key="date">Date</TableCell> */}
+            <TableCell key="date">Date</TableCell>
             {
                 cols.map((c,i) => (
                     <TableCell align="right" key={i}>{cap(c)}</TableCell>
@@ -55,9 +55,9 @@ export default function DenseTable(props: any) {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               onClick={() => setChartData(row.id)}
             >
-              {/* <TableCell component="th" scope="row" key={row.key}>
+              <TableCell component="th" scope="row" key={row.key}>
                 {row.date}
-              </TableCell> */}
+              </TableCell>
               {
                  cols.map(c => (
                     <TableCell key={c} align="right">{row[c]}</TableCell>

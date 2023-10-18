@@ -33,7 +33,7 @@ function DataBox({ playerName }: PlayerName) {
 
   useEffect(() => {
     getPlayerObject();
-    console.log('local',localMatches)
+    // console.log('local',localMatches)
   }, []);
 
   useEffect(() => {
