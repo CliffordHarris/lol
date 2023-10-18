@@ -38,29 +38,29 @@ export default function DenseTable(props: any) {
     }
 
   return (
-    <TableContainer component={Card}>
+    <TableContainer component={Card} key={props}>
       {/* <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table"> */}
       <Table size="small" aria-label="a dense table">
         <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
+          <TableRow key={props.key}>
+            {/* <TableCell key="date">Date</TableCell> */}
             {
                 cols.map(c => (
-                    <TableCell align="right">{cap(c)}</TableCell>
+                    <TableCell align="right" key={c}>{cap(c)}</TableCell>
                 ))
             }
           </TableRow>
         </TableHead>
         <TableBody>
-          {getRows(props).map((row: any) => (
+          {getRows(props).map((row: any, i: number) => (
             <TableRow
-              key={row.id}
+              key={props.key}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               onClick={() => setChartData(row.id)}
             >
-              <TableCell component="th" scope="row">
+              {/* <TableCell component="th" scope="row" key={row.key}>
                 {row.date}
-              </TableCell>
+              </TableCell> */}
               {
                  cols.map(c => (
                     <TableCell align="right">{row[c]}</TableCell>
