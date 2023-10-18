@@ -65,8 +65,8 @@ function DataBox({ playerName }: PlayerName) {
   const getAllMatches = async () => {
     if(matchIdsForAllUsers.length === 0) return;
     let allMatchesForUser: any[] = [];
-    console.log(matchIdsForAllUsers);
-    console.log(matches);
+    // console.log(matchIdsForAllUsers);
+    // console.log(matches);
 
     let existing = localStorage.getItem('fullMatches') || '[]';
     let getThese = Object.keys(JSON.parse(existing));

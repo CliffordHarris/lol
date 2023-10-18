@@ -15,7 +15,6 @@ export default function DenseTable(props: any) {
         if(props.data.length === 0) return;
         let r = Object.keys(props.data[0]);
         let colList = r.filter(col => !['id', 'date'].includes(col) );
-        console.log(colList);
         setCols(colList)
     }, [props.data, props.key])
 
@@ -27,13 +26,11 @@ export default function DenseTable(props: any) {
     }
 
     const getRows = (props: any) => {
-        console.log('table', props)
+        // console.log('table', props)
         if(props.data) return props.data;
     }
 
     const setChartData = (id: string) => {
-        // console.log('setChartData', id);
-        // console.log('match data', localStorage['fullMatches']);
         console.log('WHOA', matchDetailsForAllUsers[id]);
     }
 
