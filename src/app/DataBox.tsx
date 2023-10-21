@@ -3,11 +3,10 @@ import { getMatchesForUser, getMatchData, getPlayerInfo } from './api-calls';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap/';
 import * as status from './constants';
 import { atom, useAtom } from 'jotai';
-import { allMatchesAtom, matchesDetailsAtom, fullMatchesAtom } from './app';
+import { allMatchesAtom, matchesDetailsAtom, fullMatchesAtom } from './DataBoxState';
 import { hasChanges } from './MainPage';
 import DataCard from "./DataCard";
 import DataTable from './DataTable';
-
 
 interface MatchDataLookup {
   [key: string]: any
@@ -33,7 +32,7 @@ function DataBox({ playerName }: PlayerName) {
 
   useEffect(() => {
     getPlayerObject();
-    // console.log('local',localMatches)
+    console.log('created a DataBox component!!!!')
   }, []);
 
   useEffect(() => {
@@ -42,7 +41,7 @@ function DataBox({ playerName }: PlayerName) {
 
   useEffect(() => {
     createLookupObj();
-}, [allMatches])
+  }, [allMatches])
 
   const getPlayerObject = async () => {
     const playerObject = await getPlayerInfo(playerName)
@@ -55,9 +54,6 @@ function DataBox({ playerName }: PlayerName) {
     let matchIdsForUser = await getMatchesForUser(userId);
     setMatches(matchIdsForUser);
     setMatchIdsForAllUsers(existing => Array.from(new Set([...existing, ...matchIdsForUser])));
-    // setMatchesForAllUsers(existing => {
-    //   return Array.from(new Set([...existing, ...matchIdsForUser]));
-    // });
   }
   interface MatchId {
     matchId: string
@@ -72,8 +68,10 @@ function DataBox({ playerName }: PlayerName) {
     let getThese = Object.keys(JSON.parse(existing));
     let missing = matchIdsForAllUsers.filter(item => getThese.indexOf(item) < 0);
     missing.forEach(async (matchId: string) => {
-      console.log('matchDetailsForAllUsers', Object.keys(matchDetailsForAllUsers).length)
+      // console.log('matchDetailsForAllUsers', Object.keys(matchDetailsForAllUsers).length)
+      console.log('match found locally!', localMatches[matchId]);
       let matchInfo = localMatches[matchId] || await getMatchData(matchId);
+      // let matchInfo = localMatches[matchId]
       allMatchesForUser.push(matchInfo);
       setAllMatches((currData: any) => [...currData, matchInfo]);
       setHasChanged(true);
@@ -128,7 +126,6 @@ function DataBox({ playerName }: PlayerName) {
         id: matchId,
         date: formatDate(data.info.gameCreation),
         result: playerInGameData.win ? 'W' : 'L',
-        // champion: `${playerInGameData.championName}${playerInGameData.individualPosition[0]}`,
         champion: `${playerInGameData.championName}`,
         kda: `${playerInGameData.kills}/${playerInGameData.deaths}/${playerInGameData.assists}`,
         level: playerInGameData.champLevel,
@@ -143,9 +140,9 @@ function DataBox({ playerName }: PlayerName) {
 
   const formatDate = (date: string): string => {
     let d = new Date(date);
-    // return `${d.getMonth()+1}/${d.getDate()} ${d.toLocaleTimeString()}`
     return `${d.getMonth()+1}/${d.getDate()}`
   };
+
   return (
     <Col xs={12} md={6} className="pb-3">
       <Card border="info">

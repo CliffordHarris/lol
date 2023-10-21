@@ -2,6 +2,8 @@ import axios from "axios";
 import * as status from './constants';
 
 const apiKey = import.meta.env.VITE_API_KEY;
+const color = 'background: mediumvioletred; color: white; font-size: 24px'
+
 let numOfCalls = 0;
 
 export const getPlayerInfo = async (user: string) => {
@@ -9,7 +11,7 @@ export const getPlayerInfo = async (user: string) => {
 
   let url = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
   let apiPrefix = "?api_key=";
-  console.log(`%c ${++numOfCalls} `, 'background: green; color: white; font-size: 24px');
+  console.log(`%c ${++numOfCalls} `, color);
 
   try {
     let resp = await axios.get(url + user + apiPrefix + apiKey);
@@ -27,7 +29,7 @@ export const getMatchesForUser = async (userId: string) => {
   let url = "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/"
   let option = "/ids?start=0&count="
   let apiPrefix = "&api_key=";
-  console.log(`%c ${++numOfCalls} `, 'background: green; color: white; font-size: 24px');
+  console.log(`%c ${++numOfCalls} `, color);
 
 try {
     let resp = await axios.get(url + userId + option + count + apiPrefix + apiKey);
@@ -43,7 +45,7 @@ export const getMatchData = async (matchId: string) => {
 
   let url = "https://americas.api.riotgames.com/lol/match/v5/matches/"
   let apiPrefix = "?api_key=";
-  console.log(`%c ${++numOfCalls} `, 'background: green; color: white; font-size: 24px');
+  console.log(`%c ${++numOfCalls} `, color);
 try {
     let resp = await axios.get(url + matchId + apiPrefix + apiKey);
     return resp.data;
@@ -52,5 +54,9 @@ try {
     if (error['code'] === status.ERR_CODE) return status.API_ERR;
   }
 }
+
+// export const getAllData = async (matchId: string) => {
+
+// }
 
 // status - https://na1.api.riotgames.com/lol/status/v4/platform-data

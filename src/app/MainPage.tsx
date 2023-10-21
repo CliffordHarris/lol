@@ -19,53 +19,10 @@ function MainPage() {
   );
   const [, setNames] = useState<string[]>([]);
   const [userName] = useState<string>();
-  const [dataArr, setDataArr] = useState<any>([]);
-  const [userData, setUserData] = useState<{ [key: string]: any }>({});
+  // const [dataArr, setDataArr] = useState<any>([]);
+  // const [userData, setUserData] = useState<{ [key: string]: any }>({});
   const [showAlert, setShowAlert] = useState(false);
   const [hasChanged] = useAtom(hasChanges);
-
-  // useEffect(() => {
-  //   getUsernames();
-  // }, []);
-
-  // useEffect(() => {
-  //   getPlayerInfoByName();
-  // }, [names]);
-
-  // useEffect(() => {
-  //   let dictionary: { [key: string]: any } = {};
-  //   dataArr.forEach((userData: any) => {
-  //     dictionary[userData.name] = userData;
-  //   })
-  //   setUserData(dictionary);
-  // }, [dataArr])
-
-  // const getUsernames = () => {
-  //   const vals = import.meta.env.VITE_USERS;
-  //   if (!!vals) {
-  //     const arr = JSON.parse(vals);
-  //     setNames(names);
-  //   }
-  // }
-
-  // const getUser = () => {
-  //   if (userName) setNames([userName]);
-  // }
-
-  // const getPlayerInfoByName = () => {
-  //   if (names.length === 0) return;
-    
-  //   names.forEach(async (n: string) => {
-  //     let data = await getPlayerInfo(n);
-  //     if (data === status.CANT_FIND) {
-  //       setDataArr([]);
-  //       setShowAlert(true);
-  //       return;
-  //     }
-
-  //     setDataArr((currData: any) => [...currData, data]);
-  //   });
-  // }
 
   return (
     <>
@@ -73,24 +30,23 @@ function MainPage() {
         <Toast onClose={() => setShowAlert(false)} show={showAlert} delay={7000} bg="info" autohide>
           <Toast.Body>There was an error getting data</Toast.Body>
         </Toast>
-        <Toast onClose={() => setShowAlert(false)} show={hasChanged} delay={3000} bg="success" color="white" autohide>
-          <Toast.Body>New Update!</Toast.Body>
-        </Toast>
       </ToastContainer>
 
       <Container fluid="lg" className="mt-4 pt-4">
-      <Header></Header>
-        <Row>
-          {/* {Object.keys(userData).map((name: any) => (
+        <Header></Header>
+        {/* {Object.keys(userData).map((name: any) => (
               // <DataCard name={name} key={name} data={userData[name]}></DataCard>
               <DataBox playerName={name}></DataBox>
           ))} */}
-          {names.map((name: any) => (
-            <DataBox playerName={name} key={name}></DataBox>
-            // <LineChart></LineChart>
-            
-          ))}
-{/* 
+        {names.map((name: any) => (
+          // <>
+          //   <DataBox playerName={name} key={name}></DataBox>
+          //   {/* <LineChart></LineChart> */}
+          // </>
+          <DataBox playerName={name} key={name}></DataBox>
+
+        ))}
+        {/* 
           <Row>
             <div>Please enter your username</div>
             <input
@@ -99,7 +55,6 @@ function MainPage() {
             />
             <Button variant="primary" onClick={getUser}>Find User</Button>
           </Row> */}
-        </Row>
       </Container>
     </>
   );

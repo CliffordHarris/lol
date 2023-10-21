@@ -8,31 +8,60 @@ import Paper from '@mui/material/Paper';
 import { Card } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import { matchesDetailsAtom } from './app';
+import { matchesDetailsAtom } from './DataBoxState';
 
 export default function DenseTable(props: any) {
-    useEffect(() => {
-        if(props.data.length === 0) return;
-        let r = Object.keys(props.data[0]);
-        let colList = r.filter(col => !['id', 'date'].includes(col) );
-        setCols(colList)
-    }, [props.data, props.key])
+  useEffect(() => {
+    if (props.data.length === 0) return;
+    let r = Object.keys(props.data[0]);
+    let colList = r.filter(col => !['id', 'date'].includes(col));
+    setCols(colList)
+  }, [props.data, props.key])
 
-    const [cols, setCols] = useState<string[]>([]);
-    const [matchDetailsForAllUsers, setMatchDetailsForAllUsers] = useAtom<any>(matchesDetailsAtom);
+  const [cols, setCols] = useState<string[]>([]);
+  const [matchDetailsForAllUsers, setMatchDetailsForAllUsers] = useAtom<any>(matchesDetailsAtom);
 
-    const cap = (word: string) => {
-        return word.charAt(0).toUpperCase() + word.slice(1);
-    }
+  const cap = (word: string) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
 
-    const getRows = (props: any) => {
-        // console.log('table', props)
-        if(props.data) return props.data;
-    }
+  const getRows = (props: any) => {
+    // console.log('table', props)
+    if (props.data) return props.data;
+  }
 
-    const setChartData = (id: string) => {
-        console.log('WHOA', matchDetailsForAllUsers[id]);
-    }
+  const setChartData = (id: string) => {
+    const chartData = matchDetailsForAllUsers[id];
+    const p = chartData.info.participants;
+
+    const particip = chartData.info.participants.map((singleParticipant: any) => {
+      return {
+        summonerName: singleParticipant.summonerName,
+        championName: singleParticipant.championName,
+        lane: singleParticipant.teamPosition,
+        teamId: singleParticipant.teamId,
+        maxCsAdv: singleParticipant.challenges.maxCsAdvantageOnLaneOpponent,
+        result: singleParticipant.win ? 'W' : 'L',
+        goldEarned: singleParticipant.goldEarned,
+        goldSpent: singleParticipant.goldSpent,
+        quickFirstTurret: singleParticipant.challenges.quickFirstTurret
+      }
+    });
+    const team1 = particip.filter((part: any) => part.teamId === 100);
+    const team2 = particip.filter((part: any) => part.teamId === 200);
+
+    const team1Gold = team1.map((p: any) => p.goldEarned).reduce((x: number, y: number) => x + y, 0);
+    const team2Gold = team2.map((p: any) => p.goldEarned).reduce((x: number, y: number) => x + y, 0);
+
+    // console.log(particip, p, chartData)
+    console.table(team1)    
+    console.log('gold', team1Gold, team1Gold - team2Gold);
+    
+    console.table(team2)    
+    console.log('gold', team2Gold, team2Gold - team1Gold);
+
+    // console.table(particip);
+  }
 
   return (
     <TableContainer component={Card} key={props.key}>
@@ -42,9 +71,9 @@ export default function DenseTable(props: any) {
           <TableRow key={props.key}>
             <TableCell key="date">Date</TableCell>
             {
-                cols.map((c,i) => (
-                    <TableCell align="right" key={i}>{cap(c)}</TableCell>
-                ))
+              cols.map((c, i) => (
+                <TableCell align="right" key={i}>{cap(c)}</TableCell>
+              ))
             }
           </TableRow>
         </TableHead>
@@ -59,8 +88,8 @@ export default function DenseTable(props: any) {
                 {row.date}
               </TableCell>
               {
-                 cols.map(c => (
-                    <TableCell key={c} align="right">{row[c]}</TableCell>
+                cols.map(c => (
+                  <TableCell key={c} align="right">{row[c]}</TableCell>
                 ))
               }
             </TableRow>
