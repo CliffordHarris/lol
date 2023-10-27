@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './box.css';
-import { getMatchesForUser, getMatchData } from './api-calls';
+import { getMatchesForUser, getMatchData } from './ApiCalls';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap/';
 
 interface MatchDataLookup {

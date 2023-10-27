@@ -1,12 +1,13 @@
 import { useState, useEffect, useMemo } from 'react';
-import { getMatchesForUser, getMatchData, getPlayerInfo } from './api-calls';
+// import { getMatchesForUser, getMatchData, getPlayerInfo } from './ApiCalls';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap/';
-import * as status from './constants';
+// import * as status from './constants';
 import { atom, useAtom } from 'jotai';
 import { allMatchesAtom, matchesDetailsAtom, fullMatchesAtom } from './DataBoxState';
 import { hasChanges } from './MainPage';
-import DataCard from "./DataCard";
+// import DataCard from "./DataCard";
 import DataTable from './DataTable';
+import * as constants from './constants';
 
 interface MatchDataLookup {
   [key: string]: any
@@ -29,99 +30,136 @@ function DataBox({ playerName }: PlayerName) {
   const [allMatches, setAllMatches] = useState<any>([]);
   const [localMatches, setLocalMatches] = useAtom(fullMatchesAtom);
   const [, setHasChanged] = useAtom(hasChanges);
+  const [data, setData] = useState<any | null>();
 
   useEffect(() => {
-    getPlayerObject();
-    console.log('created a DataBox component!!!!')
-  }, []);
+    doData();
+  }, [localMatches])
 
-  useEffect(() => {
-    getAllMatches()
-  }, [matches]);
-
-  useEffect(() => {
-    createLookupObj();
-  }, [allMatches])
-
-  const getPlayerObject = async () => {
-    const playerObject = await getPlayerInfo(playerName)
-    getMatchIds(playerObject.puuid);
+  const doData = () => {
+    let latest = prepareDataForTable2(localMatches);
+    latest = latest.sort((a: any, b: any) => a.date < b.date ? 1 : -1).slice(0, constants.GAMES_TO_SHOW);
+    setData(latest);
   }
 
-  const getMatchIds = async (userId: any) => {
-    if(!userId) return;
+  // useEffect(() => {
+  //   getPlayerObject();
+  // }, []);
 
-    let matchIdsForUser = await getMatchesForUser(userId);
-    setMatches(matchIdsForUser);
-    setMatchIdsForAllUsers(existing => Array.from(new Set([...existing, ...matchIdsForUser])));
-  }
-  interface MatchId {
-    matchId: string
-  }
-  const getAllMatches = async () => {
-    if(matchIdsForAllUsers.length === 0) return;
-    let allMatchesForUser: any[] = [];
-    // console.log(matchIdsForAllUsers);
-    // console.log(matches);
+  // useEffect(() => {
+  //   getAllMatches()
+  // }, [matches]);
 
-    let existing = localStorage.getItem('fullMatches') || '[]';
-    let getThese = Object.keys(JSON.parse(existing));
-    let missing = matchIdsForAllUsers.filter(item => getThese.indexOf(item) < 0);
-    missing.forEach(async (matchId: string) => {
-      // console.log('matchDetailsForAllUsers', Object.keys(matchDetailsForAllUsers).length)
-      console.log('match found locally!', localMatches[matchId]);
-      let matchInfo = localMatches[matchId] || await getMatchData(matchId);
-      // let matchInfo = localMatches[matchId]
-      allMatchesForUser.push(matchInfo);
-      setAllMatches((currData: any) => [...currData, matchInfo]);
-      setHasChanged(true);
-    })
-    if(missing.length === 0) {
-      setAllMatches(localMatches);
-    }
-  }
+  // useEffect(() => {
+  //   createLookupObj();
+  // }, [allMatches])
 
-  const createLookupObj = () => {
-    if(allMatches.length === 0) return; 
+  // const getPlayerObject = async () => {
+  //   const playerObject = await getPlayerInfo(playerName)
+  //   getMatchIds(playerObject.puuid);
+  // }
 
-    let dictionary: MatchDataLookup = {};
-    Object.values(allMatches).forEach((match: any) => {
-      if(match !== status.API_ERR) {
-        dictionary[match.metadata.matchId] = match;
-        // setMatchDetailsForAllUsers({...matchDetailsForAllUsers, [match.metadata.matchId]: match.info})
-      }
-    })
-    setMatchDetailsForAllUsers({...matchDetailsForAllUsers, ...dictionary})
-    // console.log('Atom', matchDetailsForAllUsers);
-    // console.log('Dict', dictionary);
-    setMatchesLookup(dictionary);
+  // const getMatchIds = async (userId: any) => {
+  //   if(!userId) return;
+
+  //   let matchIdsForUser = await getMatchesForUser(userId);
+  //   setMatches(matchIdsForUser);
+  //   setMatchIdsForAllUsers(existing => Array.from(new Set([...existing, ...matchIdsForUser])));
+  // }
+  // interface MatchId {
+  //   matchId: string
+  // }
+  // const getAllMatches = async () => {
+  //   if(matchIdsForAllUsers.length === 0) return;
+  //   let allMatchesForUser: any[] = [];
+  //   // console.log(matchIdsForAllUsers);
+  //   // console.log(matches);
+
+  //   let existing = localStorage.getItem('fullMatches') || '[]';
+  //   let getThese = Object.keys(JSON.parse(existing));
+  //   let missing = matchIdsForAllUsers.filter(item => getThese.indexOf(item) < 0);
+  //   missing.forEach(async (matchId: string) => {
+  //     // console.log('matchDetailsForAllUsers', Object.keys(matchDetailsForAllUsers).length)
+  //     console.log('match found locally!', localMatches[matchId]);
+  //     let matchInfo = localMatches[matchId] || await getMatchData(matchId);
+  //     // let matchInfo = localMatches[matchId]
+  //     allMatchesForUser.push(matchInfo);
+  //     setAllMatches((currData: any) => [...currData, matchInfo]);
+  //     setHasChanged(true);
+  //   })
+  //   if(missing.length === 0) {
+  //     setAllMatches(localMatches);
+  //   }
+  // }
+
+  // const createLookupObj = () => {
+  //   if(allMatches.length === 0) return; 
+
+  //   let dictionary: MatchDataLookup = {};
+  //   Object.values(allMatches).forEach((match: any) => {
+  //     if(match !== status.API_ERR) {
+  //       dictionary[match.metadata.matchId] = match;
+  //       // setMatchDetailsForAllUsers({...matchDetailsForAllUsers, [match.metadata.matchId]: match.info})
+  //     }
+  //   })
+  //   setMatchDetailsForAllUsers({...matchDetailsForAllUsers, ...dictionary})
+  //   // console.log('Atom', matchDetailsForAllUsers);
+  //   // console.log('Dict', dictionary);
+  //   setMatchesLookup(dictionary);
     
-    let current = {...localMatches, ...matchDetailsForAllUsers};
-    let hasChanges = Object.keys(current).length > Object.keys(localMatches).length;
-    if (hasChanges) {
-      localStorage.setItem('fullMatches', JSON.stringify(current));
-    };
-  }
+  //   let current = {...localMatches, ...matchDetailsForAllUsers};
+  //   let hasChanges = Object.keys(current).length > Object.keys(localMatches).length;
+  //   if (hasChanges) {
+  //     localStorage.setItem('fullMatches', JSON.stringify(current));
+  //   };
+  // }
 
-  interface DisplayedData {
-    id: string;
-    date: string;
-    result: boolean;
-    champion: string;
-    kda: number;
-    level: number;
-    alive: string;
-    timeAway: string;
-  }
+  // interface DisplayedData {
+  //   id: string;
+  //   date: string;
+  //   result: boolean;
+  //   champion: string;
+  //   kda: number;
+  //   level: number;
+  //   alive: string;
+  //   timeAway: string;
+  // }
 
-  const prepareDataForTable = (data: any)  => {
-    if (matches.length === 0 || Object.keys(matchesLookup).length === 0) return [];
+  // const prepareDataForTable = (data: any)  => {
+  //   console.log('prepareDataForTable', Object.keys(data).length === Object.keys(JSON.parse(localStorage.fullMatches)).length);
+  //   if (matches.length === 0 || Object.keys(matchesLookup).length === 0) return [];
 
-    const playerData = matches.filter(matchId => {
-      return matchesLookup[matchId];
+  //   const playerData = matches.filter(matchId => {
+  //     return matchesLookup[matchId];
+  //   }).map(matchId => {
+  //     let data = matchesLookup[matchId];
+  //     let playerInGameData = data.info.participants.find((x: any) => x.summonerName === playerName)
+  //     return {
+  //       id: matchId,
+  //       date: formatDate(data.info.gameCreation),
+  //       result: playerInGameData.win ? 'W' : 'L',
+  //       champion: `${playerInGameData.championName}`,
+  //       kda: `${playerInGameData.kills}/${playerInGameData.deaths}/${playerInGameData.assists}`,
+  //       level: playerInGameData.champLevel,
+  //       alive: formatMinutes(playerInGameData.longestTimeSpentLiving),
+  //       timeAway: formatMinutes(playerInGameData.totalTimeSpentDead)
+  //     }
+  //   })
+  //   return playerData;
+  // }
+
+  const prepareDataForTable2 = (datas: any)  => {
+    console.log('prepareDataForTable', Object.keys(datas).length, Object.keys(JSON.parse(localStorage.fullMatches)).length, Object.keys(localMatches).length);
+    // console.log('----------', localMatches)
+    if (Object.keys(localMatches).length === 0) return [];
+
+    const playerData = Object.keys(localMatches).filter(matchId => {
+      let playerInGameData = localMatches[matchId].info.participants.find((x: any) => x.summonerName === playerName);
+      return localMatches[matchId] && playerInGameData;
     }).map(matchId => {
-      let data = matchesLookup[matchId];
-      let playerInGameData = data.info.participants.find((x: any) => x.summonerName === playerName)
+      let data = localMatches[matchId];
+      let playerInGameData = localMatches[matchId].info.participants.find((x: any) => x.summonerName === playerName);
+      if (!playerInGameData) return {};
       return {
         id: matchId,
         date: formatDate(data.info.gameCreation),
@@ -150,7 +188,7 @@ function DataBox({ playerName }: PlayerName) {
         <Card.Body>
           {/* <Card.Title>Past {status.GAMES_TO_SHOW} games</Card.Title>
           <Card.Text>Showing game id and wins</Card.Text> */}
-            <DataTable data={prepareDataForTable(matchesLookup)}></DataTable>
+            <DataTable data={data} key={data?.info?.gameCreation}></DataTable>
           {/* <Button variant="primary">Get Data</Button> */}
         </Card.Body>
       </Card>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getMatchesForUser, getMatchData } from './api-calls';
+import { getMatchesForUser, getMatchData } from './ApiCalls';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap/';
 import * as status from './constants';
 

@@ -1,7 +1,7 @@
 import "./main-page.css";
 import LineChart from "./line-chart";
 import { useEffect, useState, useMemo } from "react";
-import { getPlayerInfo } from './api-calls';
+import { getPlayerInfo } from './ApiCalls';
 import * as status from './constants';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
@@ -9,6 +9,9 @@ import { Container, Row, Col, Button } from 'react-bootstrap/';
 import { atom, useAtom } from 'jotai'
 import DataBox from "./DataBox";
 import Header from "./header";
+import { GetAllData } from './ApiCalls';
+
+
 
 export const hasChanges = atom(false);
 
@@ -19,10 +22,14 @@ function MainPage() {
   );
   const [, setNames] = useState<string[]>([]);
   const [userName] = useState<string>();
-  // const [dataArr, setDataArr] = useState<any>([]);
-  // const [userData, setUserData] = useState<{ [key: string]: any }>({});
   const [showAlert, setShowAlert] = useState(false);
   const [hasChanged] = useAtom(hasChanges);
+
+  GetAllData();
+  // useEffect(() => {
+  //   console.log('inside');
+  //     GetAllData();
+  // }, []);
 
   return (
     <>
@@ -44,7 +51,7 @@ function MainPage() {
           //   {/* <LineChart></LineChart> */}
           // </>
           <DataBox playerName={name} key={name}></DataBox>
-
+          // <div key={name}>hi</div>
         ))}
         {/* 
           <Row>

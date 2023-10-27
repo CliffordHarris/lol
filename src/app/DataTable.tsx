@@ -12,7 +12,7 @@ import { matchesDetailsAtom } from './DataBoxState';
 
 export default function DenseTable(props: any) {
   useEffect(() => {
-    if (props.data.length === 0) return;
+    if (!props.data || props?.data?.length === 0) return;
     let r = Object.keys(props.data[0]);
     let colList = r.filter(col => !['id', 'date'].includes(col));
     setCols(colList)
@@ -28,6 +28,7 @@ export default function DenseTable(props: any) {
   const getRows = (props: any) => {
     // console.log('table', props)
     if (props.data) return props.data;
+    return [];
   }
 
   const setChartData = (id: string) => {
