@@ -68,7 +68,7 @@ export const GetAllData = async () => {
   // const localMatches = JSON.parse(localStorage.fullMatches);
 
   // 1. get all names
-  const userNames = JSON.parse(localStorage["names"] || JSON.parse(import.meta.env.VITE_USERS) || "[]");
+  const userNames = JSON.parse(localStorage["names"] || import.meta.env.VITE_USERS || "[]");
 
   const arrOfUserObj = await userNames.map(async (u: string) => {
       let data = await getPlayerInfo(u);
