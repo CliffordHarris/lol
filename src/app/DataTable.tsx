@@ -8,18 +8,20 @@ import Paper from '@mui/material/Paper';
 import { Card } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import { matchesDetailsAtom } from './DataBoxState';
+import { matchesDetailsAtom, fullMatchesAtom } from './DataBoxState';
+
 
 export default function DenseTable(props: any) {
   useEffect(() => {
     if (!props.data || props?.data?.length === 0) return;
     let r = Object.keys(props.data[0]);
-    let colList = r.filter(col => !['id', 'date'].includes(col));
+    let colList = r.filter(col => !['id', 'date', 'time'].includes(col));
     setCols(colList)
   }, [props.data, props.key])
 
   const [cols, setCols] = useState<string[]>([]);
   const [matchDetailsForAllUsers, setMatchDetailsForAllUsers] = useAtom<any>(matchesDetailsAtom);
+  const [localMatches, setLocalMatches] = useAtom(fullMatchesAtom);
 
   const cap = (word: string) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
@@ -32,7 +34,7 @@ export default function DenseTable(props: any) {
   }
 
   const setChartData = (id: string) => {
-    const chartData = matchDetailsForAllUsers[id];
+    const chartData = localMatches[id];
     const p = chartData.info.participants;
 
     const particip = chartData.info.participants.map((singleParticipant: any) => {
@@ -45,7 +47,8 @@ export default function DenseTable(props: any) {
         result: singleParticipant.win ? 'W' : 'L',
         goldEarned: singleParticipant.goldEarned,
         goldSpent: singleParticipant.goldSpent,
-        quickFirstTurret: singleParticipant.challenges.quickFirstTurret
+        quickFirstTurret: singleParticipant.challenges.quickFirstTurret,
+        ultimateCount: singleParticipant.spell4Casts
       }
     });
     const team1 = particip.filter((part: any) => part.teamId === 100);

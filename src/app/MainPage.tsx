@@ -28,7 +28,7 @@ function MainPage() {
   GetAllData();
   // useEffect(() => {
   //   console.log('inside');
-  //     GetAllData();
+  //   GetAllData();
   // }, []);
 
   return (

@@ -38,7 +38,7 @@ function DataBox({ playerName }: PlayerName) {
 
   const doData = () => {
     let latest = prepareDataForTable2(localMatches);
-    latest = latest.sort((a: any, b: any) => a.date < b.date ? 1 : -1).slice(0, constants.GAMES_TO_SHOW);
+    latest = latest.sort((a: any, b: any) => a.time < b.time ? 1 : -1).slice(0, constants.GAMES_TO_SHOW);
     setData(latest);
   }
 
@@ -163,6 +163,7 @@ function DataBox({ playerName }: PlayerName) {
       return {
         id: matchId,
         date: formatDate(data.info.gameCreation),
+        time: new Date(data.info.gameCreation).toISOString(),
         result: playerInGameData.win ? 'W' : 'L',
         champion: `${playerInGameData.championName}`,
         kda: `${playerInGameData.kills}/${playerInGameData.deaths}/${playerInGameData.assists}`,
