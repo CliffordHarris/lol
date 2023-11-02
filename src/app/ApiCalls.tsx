@@ -110,6 +110,15 @@ export const GetAllData = async () => {
   let current = {...localMatches, ...matchLookup};
   let hasChanges = Object.keys(current).length > Object.keys(localMatches).length;
   if (hasChanges) {
+
+    // todo REMOVE IF OLDER THAN 5 DAYS
+    // new Date(new Date().setHours(24 * -5))
+  //   b.forEach(x => {
+  //     if(fiveDaysAgo > new Date(a[x].info.gameCreation).toISOString()){
+  //         delete a[x]
+  //     }
+  // })
+
     localStorage.setItem('fullMatches', JSON.stringify(current));
     setLocalMatches(current);
   };

@@ -43,11 +43,11 @@ export default function DenseTable(props: any) {
         championName: singleParticipant.championName,
         lane: singleParticipant.teamPosition,
         teamId: singleParticipant.teamId,
-        maxCsAdv: singleParticipant.challenges.maxCsAdvantageOnLaneOpponent,
+        maxCsAdv: singleParticipant.challenges?.maxCsAdvantageOnLaneOpponent || 0,
         result: singleParticipant.win ? 'W' : 'L',
         goldEarned: singleParticipant.goldEarned,
         goldSpent: singleParticipant.goldSpent,
-        quickFirstTurret: singleParticipant.challenges.quickFirstTurret,
+        quickFirstTurret: singleParticipant.challenges?.quickFirstTurret || 0,
         ultimateCount: singleParticipant.spell4Casts
       }
     });
