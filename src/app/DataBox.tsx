@@ -66,7 +66,7 @@ function DataBox({ playerName }: PlayerName) {
         timeAway: formatMinutes(playerInGameData.totalTimeSpentDead),
         surrender: playerInGameData.gameEndedInEarlySurrender || playerInGameData.gameEndedInSurrender ? 'Yes' : '',
         firstKill: playerInGameData.firstBloodKill ? 'Yes' : '',
-        firstTower: data.info.participants.filter((x: any) => x.teamId === teamId).some((x: any) => x.firstBloodKill) ? 'Yes': '',
+        teamFirstTower: data.info.participants.filter((x: any) => x.teamId === teamId).some((x: any) => x.firstBloodKill) ? 'Yes': '',
         pings: getNumberOfPings(playerInGameData)
       }
     })
