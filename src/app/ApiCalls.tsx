@@ -2,11 +2,9 @@ import axios from "axios";
 import * as status from './constants';
 import { fullMatchesAtom } from "./DataBoxState";
 import { useAtom } from "jotai";
-// import { GetAllData } from './GetEverything';
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const color = 'background: mediumvioletred; color: white; font-size: 24px'
-
 let numOfCalls = 0;
 
 export const getPlayerInfo = async (user: string) => {
@@ -65,7 +63,6 @@ export const GetAllData = async () => {
   console.log("Starting: DATA LOAD!")
 
   const [localMatches, setLocalMatches] = useAtom(fullMatchesAtom);
-  // const localMatches = JSON.parse(localStorage.fullMatches);
 
   // 1. get all names
   const userNames = JSON.parse(localStorage["names"] || import.meta.env.VITE_USERS || "[]");
@@ -102,46 +99,26 @@ export const GetAllData = async () => {
   // 6. add to new variable
   const matchDetails = await Promise.all(arrOfMatchDetails);
 
-
   const matchLookup: any = {};
   matchDetails.filter(md => !!md).forEach((m: any) => matchLookup[m.metadata.matchId] = m)
 
-  // 7. Save to local
+  // 7. Save to local and REMOVE IF OLDER THAN 5 DAYS
+  let fiveDaysAgo = new Date(new Date().setHours(24 * -5));
+  existingMatchIds.forEach(x => {
+    if (fiveDaysAgo > new Date(localMatches[x].info.gameCreation)) {
+      delete localMatches[x];
+    }
+  })
+
   let current = {...localMatches, ...matchLookup};
   let hasChanges = Object.keys(current).length > Object.keys(localMatches).length;
   if (hasChanges) {
-
-    // todo REMOVE IF OLDER THAN 5 DAYS
-    // new Date(new Date().setHours(24 * -5))
-  //   b.forEach(x => {
-  //     if(fiveDaysAgo > new Date(a[x].info.gameCreation).toISOString()){
-  //         delete a[x]
-  //     }
-  // })
-
     localStorage.setItem('fullMatches', JSON.stringify(current));
     setLocalMatches(current);
   };
 
   // 7. return to front end once complete
-
   return matchDetails;
 }
-
-// export const getMatchData = async (matchId: string) => {
-//   if (!matchId) return;
-
-//   let url = "https://americas.api.riotgames.com/lol/match/v5/matches/"
-//   const apiPrefix = "?api_key=";
-//   console.log(`%c ${++numOfCalls} `, color);
-// try {
-//     let resp = await fetch(url + matchId + apiPrefix + apiKey);
-//     let res = await resp.json();
-//     return res;
-//   } 
-//   catch (error: any) {
-//     if (error['code'] === status.ERR_CODE) console.log(status.API_ERR);
-//   }
-// }
 
 // status - https://na1.api.riotgames.com/lol/status/v4/platform-data

@@ -66,19 +66,49 @@ function DataBox({ playerName }: PlayerName) {
         timeAway: formatMinutes(playerInGameData.totalTimeSpentDead),
         surrender: playerInGameData.gameEndedInEarlySurrender || playerInGameData.gameEndedInSurrender ? 'Yes' : '',
         firstKill: playerInGameData.firstBloodKill ? 'Yes' : '',
-        teamFirstTower: data.info.participants.filter((x: any) => x.teamId === teamId).some((x: any) => x.firstBloodKill) ? 'Yes': '',
-        pings: getNumberOfPings(playerInGameData)
+        teamFirstTower: getTeamDataForProp(data.info.participants.filter((x: any) => x.teamId === teamId), "firstTowerKill"),
+        pings: getSumOfSingleProperty(playerInGameData, "ping"),
+        // baronKills: getTeamDataForProp(data.info.participants.filter((x: any) => x.teamId === teamId), "baronKills"),
+        // dragonKills: getTeamDataForProp(data.info.participants.filter((x: any) => x.teamId === teamId), "dragonKills"),
+
+        baronKills: getNumberOfMonsterKills(data.info.participants.filter((x: any) => x.teamId === teamId), "baronKills"),
+        dragonKills: getNumberOfMonsterKills(data.info.participants.filter((x: any) => x.teamId === teamId), "dragonKills"),
       }
     })
     return playerData;
   }
 
-  const getNumberOfPings = (data: any) => {
+  const getTeamDataForProp = (data: any, prop: string) => {
+    return data.some((x: any) => x[prop]) ? 'Yes': '';
+  }
+  // create a func for TEAM Baron dragpn  kills
+
+  const getNumberOfMonsterKills = (data: any, prop: string) => {
+    const monsterKillCount = data.map((x: any) => x[prop]).reduce((a: number, b: number) => a+b, 0);
+    console.log(" ====================> Monster kills", monsterKillCount);
+    return monsterKillCount;
+  };
+
+  const getSumOfSingleProperty = (data: any, propString: string): number => {
     const datas: { [key: string]: any } = {};
-    constants.PINGS.forEach((ping: string) => datas[ping] = data[ping]);
-    const num = constants.PINGS.map(x => datas[x]);
+    let typeOfProp: string[] = [];
+
+    switch (propString) {
+      case "ping":
+        typeOfProp = constants.PINGS;
+        break;
+      case "baron":
+      typeOfProp = ["baronKills"]
+        break;
+      case "dragon":
+        typeOfProp = ["dragonKills"]
+        break;
+    }
+
+    typeOfProp.forEach((prop: string) => datas[prop] = data[prop]);
+    // todo log which value is undefined and remove from constants.ping
+    const num = typeOfProp.map(x => datas[x]).filter(x => x !== undefined);
     const sum = num.reduce((a,b) => a+b, 0);
-    console.log(sum);
     return sum;
   }
 
@@ -90,7 +120,7 @@ function DataBox({ playerName }: PlayerName) {
   };
 
   return (
-    <Col xs={12} md={6} className="pb-3">
+    <Col xs={12} md={12} className="pb-3">
       <Card border="info">
         <Card.Header className='bg-info text-white' as="h5">{playerName.toUpperCase()}</Card.Header>
         <Card.Body>

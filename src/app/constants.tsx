@@ -20,3 +20,33 @@ export const PINGS = [
     'pushPings',
     'visionClearedPings'
 ]
+
+export enum DataProperty {
+    PING = "ping",
+    DRAGON = "dragon",
+    BARON = "baron",
+}
+
+export const DAMAGE_DEALT = [
+    'damageDealtToBuildings',
+    'damageDealtToObjectives',
+    'damageDealtToTurrets',
+    'magicDamageDealt',
+    'magicDamageDealtToChampions',
+    'physicalDamageDealt',
+    'physicalDamageDealtToChampions',
+    'totalDamageDealt',
+    'totalDamageDealtToChampions',
+    'trueDamageDealt',
+    'trueDamageDealtToChampions'
+]
+export const DAMAGE_TAKEN = [
+    'magicDamageTaken',
+    'physicalDamageTaken',
+    'totalDamageTaken',
+    'trueDamageTaken'
+]
+export const DAMAGE_SHIELDED = [
+    'damageSelfMitigated',
+    'totalDamageShieldedOnTeammates'
+]
