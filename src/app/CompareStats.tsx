@@ -1,13 +1,13 @@
-function Header() {
+function CompareStats() {
 
     return (
       <>
         <div className="text-center">
-            Welcome!
+            Compare Stats
         </div>
       </>
     );
   }
   
-  export default Header;
+  export default CompareStats;
   
