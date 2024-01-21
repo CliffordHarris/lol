@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NxWelcome from './nx-welcome';
 import Layout from './Layout';
 import PurchasedItems from './PurchasedItems';
+import CompareStats from './CompareStats';
 
 export function App() {
   return (
