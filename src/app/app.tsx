@@ -6,6 +6,7 @@ import MainPage from './MainPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NxWelcome from './nx-welcome';
 import Layout from './Layout';
+import PurchasedItems from './PurchasedItems';
 
 export function App() {
   return (
@@ -17,7 +18,8 @@ export function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<MainPage />} />
-        <Route path="abc" element={<NxWelcome title={'Hola'} />} />
+        <Route path="items" element={<PurchasedItems />} />
+        <Route path="stats" element={<CompareStats />} />
         <Route path="*" element={<MainPage />} />
       </Route>
     </Routes>
