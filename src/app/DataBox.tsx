@@ -85,7 +85,6 @@ function DataBox({ playerName }: PlayerName) {
 
   const getNumberOfMonsterKills = (data: any, prop: string) => {
     const monsterKillCount = data.map((x: any) => x[prop]).reduce((a: number, b: number) => a+b, 0);
-    console.log(" ====================> Monster kills", monsterKillCount);
     return monsterKillCount;
   };
 
