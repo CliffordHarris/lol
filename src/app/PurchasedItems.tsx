@@ -1,5 +1,9 @@
+import { getDataForA } from "./Util";
+
 function PurchasedItems() {
     const items = ['item0', 'item1', 'item2', 'item3', 'item4', 'item5', "item6"];
+    const myGames = getDataForA();
+    console.log(myGames);
     return (
         <>
             {items.map(
