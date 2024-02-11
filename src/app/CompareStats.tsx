@@ -1,12 +1,13 @@
 import { getDataForN } from "./Util"; // brings in functions and files
 
 type Stats = {
+  // id: number;
   name: string;
   position: string;
   experience: number;
   visionScore: number;
   damageDealt: number;
-  win: string;
+  win: boolean;
 }
 
 function CompareStats() { // component name
@@ -18,12 +19,13 @@ function CompareStats() { // component name
   for (let i = 0; i < myGames.length; i++) {
     const game = myGames[i];
     let aStatObject: Stats = {
+      // id: i,
       name: game["championName"],
       position: game["individualPosition"],
       experience: game["champExperience"],
       visionScore: game["visionScore"],
       damageDealt: game["totalDamageDealt"],
-      win: game["win"] ? "win" : "lose"
+      win: game["win"]
     };
     listOfStats.push(aStatObject);
 
@@ -31,7 +33,7 @@ function CompareStats() { // component name
   console.table(listOfStats)
 
   return ( // returns html
-    <div style={{ background: "lightgray"}}>
+    <div style={{ border: "1px solid lightgray"}}>
       <div className="text-center">
         Compare Stats
       </div>
@@ -40,13 +42,14 @@ function CompareStats() { // component name
       </div>
       <div style={{padding:"30px"}}>
         {listOfStats.map(stat => (
-          <div>
-            <h2>{stat.name}</h2>
+          <div key={stat.experience}>
+            {/* <h2 style={{background: "lightgreen"}}>{stat.name}</h2> */}
+            <h2 style={{background: stat.win ? "lightgreen" : "pink"}}>{stat.name}</h2>
             <div>Position: {stat.position}</div>
             <div>Experience: {stat.experience}</div>
             <div>Vision Score: {stat.visionScore}</div>
             <div>Damage Dealt: {stat.damageDealt}</div>
-            <div>{stat.win}</div>
+            {/* <div>{stat.win}</div> */}
           </div>
         ))}
       </div>
@@ -71,6 +74,5 @@ export default CompareStats;
 // c. Role matchup
 // d. Winning side green
 
-// 4. add labels to stats on Compare Stats Page
 // 5. space out stats on Compare Stats Page so that it's not too close together
 // 6. add character level in aStatobject
