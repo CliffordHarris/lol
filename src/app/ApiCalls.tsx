@@ -2,6 +2,7 @@ import axios from "axios";
 import * as status from './constants';
 import { fullMatchesAtom } from "./DataBoxState";
 import { useAtom } from "jotai";
+import { getItemsForUser } from "./GetItemsForUser";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const color = 'background: mediumvioletred; color: white; font-size: 24px'
@@ -119,6 +120,10 @@ export const GetAllData = async () => {
 
   // 7. return to front end once complete
   return matchDetails;
+}
+
+export const getItemDictionaryForItemIds = (itemIds: number[]) => {
+  return getItemsForUser(itemIds);
 }
 
 // status - https://na1.api.riotgames.com/lol/status/v4/platform-data

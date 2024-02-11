@@ -1,12 +1,13 @@
 import { getDataForA } from "./Util";
 import DataTable from './DataTable';
+import { getItemDictionaryForItemIds } from "./ApiCalls";
 
 function UserItems() {
     const items = ['item0', 'item1', 'item2', 'item3', 'item4', 'item5', "item6"];
     const listOfItems = [];
     //const formatMinutes = (seconds: number) => (seconds/60).toFixed() + "'";
     const myGames = getDataForA();
-    console.log(myGames);
+    console.log(getItemDictionaryForItemIds([1052])); // Amplifying Tome item id
 
     // filter
 
