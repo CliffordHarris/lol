@@ -38,7 +38,7 @@ function MainPage() {
           <Toast.Body>There was an error getting data</Toast.Body>
         </Toast>
       </ToastContainer>
-
+    {/* // TODO remove all but one user and add back the INPUT box or buttons to switch users */}
       <Container fluid="lg" className="mt-4 pt-4">
         <Header></Header>
         {/* {Object.keys(userData).map((name: any) => (

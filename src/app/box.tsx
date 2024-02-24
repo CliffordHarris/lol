@@ -27,7 +27,7 @@ function Box(props: any) {
   
   useEffect(() => {
     getAllMatches()
-  }, [matches]);
+  }, []);
 
   useEffect(() => {
     createLookup();
